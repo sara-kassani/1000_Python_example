@@ -1,7 +1,7 @@
 """
 List assignment and list copy
 - There is one list in the memory and two pointers to it
-- I you really want to make a copy th pythonic way is to use the slice syntax
+- If you really want to make a copy th pythonic way is to use the slice syntax
 - It creates a shallow copy.
 """
 
