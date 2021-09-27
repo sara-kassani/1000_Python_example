@@ -9,7 +9,7 @@ def main():
     print(b)
     print(a)  #immutable
 
-    print (a. lower())
+    print (a.lower())
 
 
 if __name__ == '__main__':
