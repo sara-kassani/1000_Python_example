@@ -1,5 +1,5 @@
 """
-list assignemt
+list assignment
 - list assignment works in "parallel" in Python
 """
 
