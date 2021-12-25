@@ -1,6 +1,6 @@
 """
 Sort tuples
-- Sorting tuples or kist, or other complex structures
+- Sorting tuples or list, or other complex structures
 """
 
 def main():
