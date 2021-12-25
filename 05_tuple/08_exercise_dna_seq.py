@@ -4,7 +4,7 @@ Exercise: DNA sequencing
 - Given a sequence like 'ACCGXXCXXGTTACTGGGCXTTGTXX' (nucleotide mixed up with other elements)
 - First return the sequences containing only ACTG. The above string will ve changed to [[‘ACCG’, ‘C’, ‘GTTACTGGGC’, ‘TTGT’].
 - Then sort them by length. Expected result: [‘GTTACTGGGC’, ‘ACCG’, ‘TTGT’, ‘C’]
-- What if the original string contains more than on type of forming elements? e.g. ‘ACCGXXCXXYYGTTQRACQQTGGGCXTTGTXX’. Can you do the same?
+- What if the original string contains more than one type of forming elements? e.g. ‘ACCGXXCXXYYGTTQRACQQTGGGCXTTGTXX’. Can you do the same?
 """
 
 
