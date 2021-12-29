@@ -16,7 +16,7 @@ def main():
     diff = fruits1.symmetric_difference(fruits2)
     print(diff)
 
-            # {'door', 'car', 'hola', 'luna', 'lunar'}
+            # {'banana', 'apple', 'orange'}
 
 if __name__ == '__main__':
     main()
