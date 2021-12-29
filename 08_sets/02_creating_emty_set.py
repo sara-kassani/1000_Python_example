@@ -9,8 +9,8 @@ Created on Tue Dec 21 03:01:56 2021
 
 def main():
 
-    objects = set()
-    print(objects)    #  set()
+    celestional_objects = set()
+    print(celestional_objects)    #  set()
 
 if __name__ == '__main__':
     main()
