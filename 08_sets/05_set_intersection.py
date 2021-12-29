@@ -7,13 +7,13 @@ Created on Tue Dec 21 04:30:19 2021
 
 # set intersection
 def main():
-    english = set(['door', 'car', 'lunar', 'era'])
-    spanish = set(['era', 'luna', 'hola'])
+    fruits1 = set(["apple", "banana", "cherry", "apricot"])
+    fruits2 = set(["orange", "apricot", "cherry"])
 
-    both = english.intersection(spanish)
+    both = fruits1.intersection(fruits2)
     print(both)
 
-                # {'era'}
+                # {'cherry', 'apricot'}
 
 
 if __name__ == '__main__':
