@@ -8,14 +8,14 @@ Created on Tue Dec 21 05:03:42 2021
 # set relative complement
 
 def main():
-    english = set(['door', 'car', 'lunar', 'era'])
-    spanish = set(['era', 'lunar', 'hola'])
+    fruits1 = set(["apple", "banana", "cherry", "apricot"])
+    fruits2 = set(["orange", "apricot", "cherry"])
 
-    eng = english - spanish
-    spa = spanish - english
+    diff1 = fruits1 - fruits2
+    diff2 = fruits2 - fruits1
 
-    print(eng)    # {'door', 'car'}
-    print(spa)    #  {'hola'}
+    print(diff1)    # {'banana', 'apple'}
+    print(diff2)    #  {'orange'}
 
 if __name__ == '__main__':
     main()

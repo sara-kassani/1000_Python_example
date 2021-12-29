@@ -10,10 +10,10 @@ Created on Tue Dec 21 04:49:17 2021
 
 
 def main():
-    english = set(['door', 'car', 'lunar', 'era'])
-    spanish = set(['era', 'luna', 'hola'])
+    fruits1 = set(["apple", "banana", "cherry", "apricot"])
+    fruits2 = set(["orange", "apricot", "cherry"])
 
-    diff = english.symmetric_difference(spanish)
+    diff = fruits1.symmetric_difference(fruits2)
     print(diff)
 
             # {'door', 'car', 'hola', 'luna', 'lunar'}
