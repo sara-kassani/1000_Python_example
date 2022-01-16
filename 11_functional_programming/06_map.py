@@ -8,7 +8,8 @@ Created on Sun Jan  2 07:57:02 2022
 """
 • map(function, iterable, ...)
 
-The map function applies a function to every item in an iterable and returns an iterator that can be used to iterate over the results.
+The map function applies a function to every item in an iterable and returns an iterator that can be used 
+to iterate over the results.
 
 """
 
