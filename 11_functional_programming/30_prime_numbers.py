@@ -12,7 +12,7 @@ def main():
     for i in range(2, 1+int(n ** 0.5)):
         nums = filter(lambda x: x == i or x % i, nums)
     
-    print(nums)
+    print(list(nums))
     
     
 if __name__ == '__main__':
