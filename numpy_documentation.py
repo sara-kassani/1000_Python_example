@@ -65,7 +65,7 @@ Dot product np.dot, @: row*column
  [43 50]]
 """
 print('______________________________________')
-### += , *= act in place ti modify an existing array rather than create a new one.
+### += , *= act in place to modify an existing array rather than create a new one.
 
 rg= np.random.default_rng(1)
 b = rg.random((2, 3))
