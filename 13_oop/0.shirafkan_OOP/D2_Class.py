@@ -26,7 +26,7 @@ print(x)    # 7
 print('-------------')
 
 class Book:
-    def __init__(self,author, title):
+    def __init__(self, author, title):
         self.author = author
         self.title = title
         
