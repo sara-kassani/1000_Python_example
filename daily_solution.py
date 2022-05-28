@@ -14,6 +14,16 @@ with tf.device('/gpu:1'):
 from os import listdir
 from os.path import isfile, join
 dcmfiles = [f for f in listdir(input_dir) if isfile(join(input_dir, f))]
-dcmfiles = sorted(onlyfiles)
+dcmfiles = sorted(dcmfiles)
 # dcmfiles
 ###########################################################################
+dcmfiles = []
+jpgfiles = []
+matfiles = []
+for file in all_files:
+    if '.dcm' in file:
+        dcmfiles.append(file)
+    elif '.jpeg' in file:
+        jpgfiles.append(file)
+    elif '.mat' in file:
+        matfiles.append(file)
