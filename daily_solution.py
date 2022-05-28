@@ -11,3 +11,9 @@ with tf.device('/gpu:1'):
     history = model.fit(train_images, train_masks, epochs=5, batch_size=1, verbose=1,
                   validation_data=(validation_images, validation_masks))
 ###########################################################################
+from os import listdir
+from os.path import isfile, join
+dcmfiles = [f for f in listdir(input_dir) if isfile(join(input_dir, f))]
+dcmfiles = sorted(onlyfiles)
+# dcmfiles
+###########################################################################
