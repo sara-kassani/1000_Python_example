@@ -34,17 +34,7 @@ allfiles = [f for f in listdir(input_dir) if isfile(join(input_dir, f))]
 allfiles = sorted(allfiles)
 allfiles
 
-dcmfiles = []
-jpgfiles = []
-matfiles = []
-for file in allfiles:
-    if '.dcm' in file:
-        dcmfiles.append(file)
-    elif '.jpeg' in file:
-        jpgfiles.append(file)
-    elif '.mat' in file:
-        matfiles.append(file)
-        
+       
 ###########################################################################
 # pandas-related
 pd.set_option('max_colwidth', -1)
