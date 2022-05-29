@@ -27,3 +27,30 @@ for file in all_files:
         jpgfiles.append(file)
     elif '.mat' in file:
         matfiles.append(file)
+###########################################################################        
+from os import listdir
+from os.path import isfile, join
+allfiles = [f for f in listdir(input_dir) if isfile(join(input_dir, f))]
+allfiles = sorted(allfiles)
+allfiles
+
+dcmfiles = []
+jpgfiles = []
+matfiles = []
+for file in allfiles:
+    if '.dcm' in file:
+        dcmfiles.append(file)
+    elif '.jpeg' in file:
+        jpgfiles.append(file)
+    elif '.mat' in file:
+        matfiles.append(file)
+        
+###########################################################################
+
+
+
+###########################################################################
+
+
+
+###########################################################################
