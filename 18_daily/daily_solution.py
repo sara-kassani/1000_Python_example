@@ -43,7 +43,10 @@ pd.set_option('max_colwidth', -1)
 # dcmfiles = [os.path.basename(x) for x in files_path_list]
 dcmfiles = list(map(os.path.basename, files_path_list))
 ###########################################################################
-
+class="alert-warning"
+class="alert-danger"
+class="alert-success"
+class="alert-info"
 
 ###########################################################################
 
