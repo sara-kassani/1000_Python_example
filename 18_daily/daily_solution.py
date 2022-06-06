@@ -50,7 +50,29 @@ class="alert-info"
 
 ###########################################################################
 
+def plot_sample(input_img, input_mask, color_map = 'nipy_spectral'):
+    '''
+    Plots and a slice with all available annotations
+    '''
+    fig = plt.figure(figsize=(20,16), dpi=100)
 
+    plt.subplot(1,3,1)
+    plt.imshow(img_slice, cmap='bone')
+    plt.title('Original Image')
+    plt.axis('off')
+    
+    plt.subplot(1,3,2)
+    plt.imshow(mask_slice, alpha=0.5, cmap=color_map)
+    plt.title('Mask')
+    plt.axis('off')
+    
+    plt.subplot(1,3,3)
+    plt.imshow(img_slice, cmap='bone')
+    plt.imshow(mask_slice, alpha=0.5, cmap=color_map)
+    plt.title('Liver & Mask')
+    plt.axis('off')
+    
+    plt.show()
 
 ###########################################################################
 
