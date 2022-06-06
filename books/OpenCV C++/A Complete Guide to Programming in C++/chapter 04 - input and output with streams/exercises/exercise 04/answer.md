@@ -1,0 +1,2 @@
+Recited from the book:  
+> When entering 336, the value 80 is stored in the low byte of variable code (336 = 256 + 80).Thus after the assignment, the variable c contains the value 80, representing the character P.
