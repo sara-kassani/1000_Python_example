@@ -75,7 +75,7 @@ def plot_sample(input_img, input_mask, color_map = 'nipy_spectral'):
     plt.show()
 
 ###########################################################################
-
+# extract filename from path list
 img_filenames = [os.path.basename(x) for x in img_files]
 
 ###########################################################################
