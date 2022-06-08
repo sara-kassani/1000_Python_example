@@ -79,8 +79,8 @@ def plot_sample(input_img, input_mask, color_map = 'nipy_spectral'):
 img_filenames = [os.path.basename(x) for x in img_files]
 
 ###########################################################################
-
-
+# run interactive command line
+!apt install --allow-change-held-packages libcudnn8=8.1.0.77-1+cuda11.2 -y
 
 ###########################################################################
 
