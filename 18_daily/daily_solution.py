@@ -83,8 +83,53 @@ img_filenames = [os.path.basename(x) for x in img_files]
 !apt install --allow-change-held-packages libcudnn8=8.1.0.77-1+cuda11.2 -y
 
 ###########################################################################
-
-
+# slices first: (40, 69, 224, 224, 1) 40:number of slices, 69 number of images
+def read_nifti_z(image_paths, mask_paths):
+    
+    if len(image_paths) != len(mask_paths):
+        """ValueError: when user gives an invalid value to a function."""
+        raise ValueError('The number of input files and segmentation masks are different.')
+        
+    if len(image_paths) == 0:
+        raise ValueError('There is no image in the directory.')
+        
+    if len(mask_paths) == 0:
+        raise ValueError('There is no mask in the directory.')
+        
+    num_images = len(image_paths)
+    for index in range(num_images):
+#         print(index)
+        image_path = image_paths[index]
+#         print(image_path)
+        mask_path = mask_paths[index]
+#         print(mask_path)
+        
+        if not os.path.isfile(image_path):
+            raise ValueError(f'File {iamge_path} does not exist.')
+            
+        if not os.path.isfile(mask_path):
+            raise ValueError(f'File {mask_path} does not exist.')
+            
+    input_images = nib.load(image_paths[0]) # load one volume to get the dimensions (x,y,z)
+#     print(image_paths[0]) # data/train/images\f_2396.nii
+    (nx, ny, nz) = input_images.shape[0:3] # 224 224 29
+    
+    input_images = np.ndarray((num_images, nx, ny, nz, 1), dtype= np.float32) # (69, 224, 224, 40, 1)
+    mask_images = np.ndarray((num_images, nx, ny, nz, 1), dtype= np.float32) # (69, 224, 224, 40, 1)
+     
+    
+    for index in range(0, num_images):
+        input_image = nib.load(image_paths[index]) # data/train/images\f_2396.nii
+        mask_image = nib.load(mask_paths[index]) # data/train/masks\f_2396.nii
+        
+        input_images[index, :, :, :, 0]= input_image.get_fdata(dtype= np.float32)
+        mask_images[index, :, :, :, 0] = mask_image.get_fdata(dtype= np.float32)
+        
+        
+        input_images = np.moveaxis(input_images, 3, 0)
+        mask_images =  np.moveaxis(mask_images, 3, 0)
+    
+        return input_images, mask_images
 
 
 ###########################################################################
