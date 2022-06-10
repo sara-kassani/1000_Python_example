@@ -30,7 +30,7 @@ for i, image_name in enumerate(image_list):
 # ['/kaggle/input/cynch-corrected64/images/c_1370', 'nii']
 
 for i, image_name in enumerate(image_list):
-    print(image_name.split('.')[1])
+    print(image_name.split('.')[1]) # or -1 ----> split by (.) --> 0(.)1
 # nii
 # nii
 # nii
