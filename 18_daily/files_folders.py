@@ -63,7 +63,9 @@ for i, image_name in enumerate(image_list):
 # /kaggle/input/cynch-corrected64/images
 
 # ***********************************************************************************
-
+# get a list shape: 
+print(np.shape(nii_data_list))
+# (111, 224, 224, 64)
 
 
 
