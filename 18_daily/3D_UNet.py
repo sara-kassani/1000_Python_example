@@ -88,3 +88,114 @@
         model.compile(optimizer = Adam(lr = 1e-5), loss = dice_coef_loss, metrics = [dice_coef])
 
         return model
+####################################################################################################################
+####################################################################################################################
+####################################################################################################################
+from tensorflow.keras.models import Model
+import matplotlib.pyplot as plt
+import cv2
+import numpy as np
+from tensorflow.keras.layers import Conv3D, MaxPooling3D, Dropout, concatenate, UpSampling3D
+import tensorflow as tf
+from scipy.spatial.distance import directed_hausdorff
+from import_data import import_data, load_hdf5
+
+
+def res_block(x, nb_filters, strides):
+    res_path = tf.keras.layers.BatchNormalization()(x)
+    res_path = tf.keras.layers.Activation(activation='relu')(res_path)
+    res_path = tf.keras.layers.Conv2D(filters=nb_filters[0], kernel_size=(3, 3), padding='same', strides=strides[0])(res_path)
+    res_path = tf.keras.layers.BatchNormalization()(res_path)
+    res_path = tf.keras.layers.Activation(activation='relu')(res_path)
+    res_path = tf.keras.layers.Conv2D(filters=nb_filters[1], kernel_size=(3, 3), padding='same', strides=strides[1])(res_path)
+    shortcut = tf.keras.layers.Conv2D(nb_filters[1], kernel_size=(1, 1), strides=strides[0])(x)
+    shortcut = tf.keras.layers.BatchNormalization()(shortcut)
+    res_path = tf.keras.layers.add([shortcut, res_path])
+    return res_path
+
+
+def encoder(x):
+    to_decoder = []
+    main_path = tf.keras.layers.Conv2D(filters=64, kernel_size=(3, 3), padding='same', strides=(1, 1))(x)
+    main_path = tf.keras.layers.BatchNormalization()(main_path)
+    main_path = tf.keras.layers.Activation(activation='relu')(main_path)
+    main_path = tf.keras.layers.Conv2D(filters=64, kernel_size=(3, 3), padding='same', strides=(1, 1))(main_path)
+    shortcut = tf.keras.layers.Conv2D(filters=64, kernel_size=(1, 1), strides=(1, 1))(x)
+    shortcut = tf.keras.layers.BatchNormalization()(shortcut)
+    main_path = tf.keras.layers.add([shortcut, main_path])
+    to_decoder.append(main_path)
+    main_path = res_block(main_path, [128, 128], [(2, 2), (1, 1)])
+    to_decoder.append(main_path)
+    main_path = res_block(main_path, [256, 256], [(2, 2), (1, 1)])
+    to_decoder.append(main_path)
+    return to_decoder
+
+
+def decoder(x, from_encoder):
+    main_path = tf.keras.layers.UpSampling2D(size=(2, 2))(x)
+    main_path = concatenate([main_path, from_encoder[2]], axis=3)
+    main_path = res_block(main_path, [256, 256], [(1, 1), (1, 1)])
+    main_path = tf.keras.layers.UpSampling2D(size=(2, 2))(main_path)
+    main_path = concatenate([main_path, from_encoder[1]], axis=3)
+    main_path = res_block(main_path, [128, 128], [(1, 1), (1, 1)])
+    main_path = tf.keras.layers.UpSampling2D(size=(2, 2))(main_path)
+    main_path = concatenate([main_path, from_encoder[0]], axis=3)
+    main_path = res_block(main_path, [64, 64], [(1, 1), (1, 1)])
+    return main_path
+
+
+def res_u_net(inputs):
+    to_decoder = encoder(inputs)
+    path = res_block(to_decoder[2], [512, 512], [(2, 2), (1, 1)])
+    path = decoder(path, from_encoder=to_decoder)
+    path = tf.keras.layers.Conv2D(filters=1, kernel_size=(1, 1), activation='sigmoid')(path)
+    return Model(inputs=inputs, outputs=path)
+
+
+def u_net_3d(inputs):
+    x = inputs
+    conv1 = Conv3D(8, 3, activation='relu', padding='same', data_format="channels_last")(x)
+    conv1 = Conv3D(8, 3, activation='relu', padding='same')(conv1)
+    pool1 = MaxPooling3D(pool_size=(2, 2, 2))(conv1)
+    conv2 = Conv3D(16, 3, activation='relu', padding='same')(pool1)
+    conv2 = Conv3D(16, 3, activation='relu', padding='same')(conv2)
+    pool2 = MaxPooling3D(pool_size=(2, 2, 2))(conv2)
+    conv3 = Conv3D(32, 3, activation='relu', padding='same')(pool2)
+    conv3 = Conv3D(32, 3, activation='relu', padding='same')(conv3)
+    pool3 = MaxPooling3D(pool_size=(2, 2, 2))(conv3)
+    conv4 = Conv3D(64, 3, activation='relu', padding='same')(pool3)
+    conv4 = Conv3D(64, 3, activation='relu', padding='same')(conv4)
+    drop4 = Dropout(0.5)(conv4)
+    pool4 = MaxPooling3D(pool_size=(2, 2, 2))(drop4)
+
+    conv5 = Conv3D(128, 3, activation='relu', padding='same')(pool4)
+    conv5 = Conv3D(128, 3, activation='relu', padding='same')(conv5)
+    drop5 = Dropout(0.5)(conv5)
+
+    up6 = Conv3D(64, 2, activation='relu', padding='same')(UpSampling3D(size=(2, 2, 2))(drop5))
+    merge6 = concatenate([drop4, up6], axis=-1)
+    conv6 = Conv3D(64, 3, activation='relu', padding='same')(merge6)
+    conv6 = Conv3D(64, 3, activation='relu', padding='same')(conv6)
+
+    up7 = Conv3D(32, 2, activation='relu', padding='same')(UpSampling3D(size=(2, 2, 2))(conv6))
+    merge7 = concatenate([conv3, up7], axis=-1)
+    conv7 = Conv3D(32, 3, activation='relu', padding='same')(merge7)
+    conv7 = Conv3D(32, 3, activation='relu', padding='same')(conv7)
+
+    up8 = Conv3D(16, 2, activation='relu', padding='same')(UpSampling3D(size=(2, 2, 2))(conv7))
+    merge8 = concatenate([conv2, up8], axis=-1)
+    conv8 = Conv3D(16, 3, activation='relu', padding='same')(merge8)
+    conv8 = Conv3D(16, 3, activation='relu', padding='same')(conv8)
+
+    up9 = Conv3D(8, 2, activation='relu', padding='same')(UpSampling3D(size=(2, 2, 2))(conv8))
+    merge9 = concatenate([conv1, up9], axis=-1)
+    conv9 = Conv3D(8, 3, activation='relu', padding='same')(merge9)
+    conv9 = Conv3D(8, 3, activation='relu', padding='same')(conv9)
+    conv10 = Conv3D(1, 1, activation='sigmoid')(conv9)
+    model = Model(inputs=inputs, outputs=conv10)
+    return model
+####################################################################################################################
+####################################################################################################################
+####################################################################################################################
+
+
