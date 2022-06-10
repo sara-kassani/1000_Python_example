@@ -52,4 +52,27 @@ for i, image_name in enumerate(image_list):
 # c_1453.nii
 # c_1459.nii
 # ***********************************************************************************
+# extract only path without filename 
+image_list = sorted(glob.glob(os.path.join(input_dir, 'images/') + '*.nii'))
+for i, image_name in enumerate(image_list):
+    print(os.path.dirname(image_name))
+    
+# /kaggle/input/cynch-corrected64/images
+# /kaggle/input/cynch-corrected64/images
+# /kaggle/input/cynch-corrected64/images
+# /kaggle/input/cynch-corrected64/images
+
+# ***********************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
 
