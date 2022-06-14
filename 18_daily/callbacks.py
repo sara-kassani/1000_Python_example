@@ -8,6 +8,8 @@ early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
                                                   patience=10,
                                                   verbose=1,
                                                   mode='min')
+
+reduce_plateau = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=2, min_lr=0.000001, verbose=1)
 # #################################################################################################
  callbacks= [checkpoint, early_stopping]
 # or
