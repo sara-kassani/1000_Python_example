@@ -144,7 +144,11 @@ print("cudnn: ", build.build_info['cudnn_version'])
 
 ###########################################################################
 
-
+cd C:\Windows\System32
+nvidia-smi.exe -l 10
+*********
+cd C:\Program Files\NVIDIA Corporation\NVSMI
+nvidia-smi.exe -l 10
 
 ###########################################################################
 
