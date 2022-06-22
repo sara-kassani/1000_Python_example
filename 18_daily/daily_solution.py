@@ -138,7 +138,9 @@ full_name =  '.'.join([file_name, file_extension])
 
 ###########################################################################
 
-
+import tensorflow.python.platform.build_info as build
+print("cuda version: ", build.build_info['cuda_version'])
+print("cudnn: ", build.build_info['cudnn_version'])
 
 ###########################################################################
 
