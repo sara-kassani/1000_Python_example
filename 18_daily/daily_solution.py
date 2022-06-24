@@ -174,7 +174,13 @@ plt.show()
 
 ###########################################################################
 
-
+import pandas as pd
+df1 = pd.DataFrame(validation_results, index=['loss', 'iou_score', 'f1-score'], columns=['validation'])
+df2 = pd.DataFrame(test_eval_results, index=['loss', 'iou_score', 'f1-score'], columns=['test_eval'])
+df3 = pd.DataFrame(test_eval_results_gen, index=['loss', 'iou_score', 'f1-score'], columns=['test_eval_gen'])
+df_results= pd.concat([df1, df2, df3], axis=1)
+# df_results.transpose()
+df_results.transpose()
 
 ###########################################################################
 
