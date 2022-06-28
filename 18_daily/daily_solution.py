@@ -191,10 +191,10 @@ masks_path = 'masks/'
 print (keras.backend.image_data_format())
 
 ###########################################################################
-
-
-
-
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return array[idx]
 ###########################################################################
 
 
