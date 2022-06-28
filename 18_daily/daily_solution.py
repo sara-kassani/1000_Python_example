@@ -197,7 +197,7 @@ def find_nearest(array, value):
     return array[idx]
 ###########################################################################
 
-
+denseunet_model = Model(inputs=model.input,outputs=model.get_layer('mid_feature').output)
 
 ###########################################################################
 
