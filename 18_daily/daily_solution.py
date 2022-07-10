@@ -243,7 +243,8 @@ test_data = DataGenerator(test_images, test_masks, BATCH_SIZE, N_CLASSES)
 
 ###########################################################################
 
-
+# Set numpy to print only 2 decimal digits for neatness
+np.set_printoptions(precision=2, suppress=True)
 
 ###########################################################################
 
