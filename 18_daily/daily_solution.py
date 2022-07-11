@@ -247,9 +247,10 @@ test_data = DataGenerator(test_images, test_masks, BATCH_SIZE, N_CLASSES)
 np.set_printoptions(precision=2, suppress=True)
 
 ###########################################################################
-
-
-
+def get_filename_info(filefullname):
+    (folderpath,filename) = os.path.split(filefullname)
+    (shotname,extension) = os.path.splitext(filename)
+    return folderpath, filename, shotname, extension
 ###########################################################################
 
 
