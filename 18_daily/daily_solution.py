@@ -253,7 +253,15 @@ def get_filename_info(filefullname):
     return folderpath, filename, shotname, extension
 ###########################################################################
 
+# mirrored_strategy = tf.distribute.MirroredStrategy(devices=["/gpu:0", "/gpu:1"], cross_device_ops = tf.distribute.HierarchicalCopyAllReduce())
+mirrored_strategy = tf.distribute.MirroredStrategy(devices=["/gpu:0"], cross_device_ops = tf.distribute.HierarchicalCopyAllReduce())
 
+with mirrored_strategy.scope():
+#     input_img = (img_height, img_width, img_depth, channels)
+    model = cascaded_unet3d(input_size = (224, 224, 64, 1), n_classes=1, dropout=0, out_activation='sigmoid', 
+                            padding = 'same', filter_size1 = [64, 128, 256, 256], filter_size2 = [32, 64, 128, 128])
+    model.summary()
+    model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
 ###########################################################################
 
