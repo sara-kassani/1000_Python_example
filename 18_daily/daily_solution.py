@@ -276,6 +276,23 @@ def makedirs(path):
 ###########################################################################
 
 
+''' -------------define save names and paths-------------'''
+trained_model_architecture_filepath = os.path.join(trained_model_dir, PROJECT_NAME +'_model_architecture.h5')
+trained_model_weights_filepath = os.path.join(trained_model_dir, PROJECT_NAME +'_model_weights.h5')
+checkpoint_filepath = os.path.join(trained_model_dir, PROJECT_NAME +'_best_weights.h5')
+history_filepath = os.path.join(trained_model_dir, PROJECT_NAME +'_history.pickle')
+json_filepath = os.path.join(trained_model_dir, PROJECT_NAME +'_model_architecture.json')
+csv_logger_filepath = os.path.join(log_dir, PROJECT_NAME +'_training.csv')
+# -----------------------------------------------------#
+csv_logger = CSVLogger(csv_logger_filepath, separator=',', append=False)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=2, min_lr=0.000001, min_delta=1e-4, verbose=1)
+checkpoint = ModelCheckpoint(filepath = checkpoint_filepath, monitor = 'val_loss', verbose = 1, save_best_only = True, save_weights_only = False, mode='auto')
+
+tensorboard_callback = TensorBoard(log_dir, histogram_freq=1)
+callbacks = [reduce_lr, checkpoint, csv_logger, tensorboard_callback]
+# -----------------------------------------------------#
+initial_learning_rate = 0.003
+lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(initial_learning_rate, decay_steps=1000, decay_rate=0.96, staircase=True)
 
 ###########################################################################
 
