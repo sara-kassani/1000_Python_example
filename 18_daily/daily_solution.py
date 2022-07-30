@@ -409,7 +409,15 @@ def load_model(model_path):
                 custom_objects={'binary_focal_loss': focal_loss,'iou_score':sm.metrics.IOUScore(threshold=0.5), 'f1-score':sm.metrics.FScore(threshold=0.5), 'recall':sm.metrics.Recall(threshold=0.5), 'precision':sm.metrics.Precision(threshold=0.5) } )
 ###########################################################################
 
-
+    # -------- save history --------
+    save_history_path = os.path.join(cfg.save_root_path, "metrics.xlsx")
+    data = []
+    index = []
+    for metrics in hist.history:
+        index.append(metrics)
+        data.append(hist.history.get(metrics))
+    df = pd.DataFrame(data=data, index=index, columns=None)
+    df.to_excel(save_history_path)
 
 ###########################################################################
 
