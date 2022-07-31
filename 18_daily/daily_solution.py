@@ -420,7 +420,10 @@ def load_model(model_path):
     df.to_excel(save_history_path)
 
 ###########################################################################
+    predict_value = model.predict(x_predict)
 
+    np.unique(predict_value[...,0], return_counts=True)
+    np.sum(predict_value[...,0]<=0.5)
 
 
 ###########################################################################
