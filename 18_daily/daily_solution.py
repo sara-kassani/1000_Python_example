@@ -433,7 +433,20 @@ img, msk = train_img_datagen.__next__()
 
 ###########################################################################
 
-
+    if activate == 'relu':
+        atensor = Activation('relu')(input_tensor)
+    elif activate == 'elu':
+        atensor = Activation('elu')(input_tensor)
+    elif activate == 'bn':
+        atensor = BatchNormalization(axis=1,momentum=0.5)(input_tensor)
+        atensor = Activation(bnacti)(input_tensor)
+    elif activate == 'leakyrelu':
+        atensor = LeakyReLU(alpha=0.3)(input_tensor)
+    elif activate == 'gelu':
+        get_custom_objects().update({'gelu': Activation(gelu)})
+        atensor = Activation(gelu)(input_tensor)
+    elif activate == 'selu':
+        atensor = Activation('selu')(input_tensor)
 
 ###########################################################################
 
