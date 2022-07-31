@@ -450,7 +450,27 @@ img, msk = train_img_datagen.__next__()
 
 ###########################################################################
 
+for current_batch_id in test_id:
+    current_batch,current_label=get_data_single3d(current_batch_id)
+    
+    pred_label=predict_single_image(current_batch)
 
+    
+    pred_label=np.squeeze(pred_label)
+    current_label=np.squeeze(current_label)
+    pred_label[pred_label>.9]=1
+    pred_label[pred_label<1]=0
+    dice_coeff1=(np.sum(pred_label*current_label)*2.0 +1.e-10)/ (np.sum(pred_label) + np.sum(current_label)+1.e-10)
+    #dice_coeff_total.append(dice_coeff1)
+    print(current_batch_id,dice_coeff1)
+
+
+    name=current_batch_id.split('/')[-1]
+    name=name.replace(".nii", "pred.nii")
+
+
+
+    nib.save(nib.Nifti1Image(np.asarray(pred_label, dtype=np.float32), nib.load(current_batch_id).get_affine()),save_folder_loc1+'/'+   name )
 
 ###########################################################################
 
