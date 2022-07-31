@@ -477,7 +477,13 @@ for current_batch_id in test_id:
 
 from keras.utils.layer_utils import count_params  
 
-count_params(model.trainable_weights)
+# count_params(model.trainable_weights)
+trainable_count = count_params(model.trainable_weights)
+non_trainable_count = count_params(model.non_trainable_weights)
+
+print_fn("Total params: {:,}".format(trainable_count + non_trainable_count))
+print_fn("Trainable params: {:,}".format(trainable_count))
+print_fn("Non-trainable params: {:,}".format(non_trainable_count))
 
 ###########################################################################
 
