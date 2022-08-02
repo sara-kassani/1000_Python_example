@@ -507,9 +507,27 @@ ax3.set_title('Mask Overlay')
 plt.savefig("data_overview.png")
 
 ###########################################################################
+img_data = nib.load(img_files[4]).get_fdata()
+mask_data = nib.load(mask_files[4]).get_fdata()
+
+# 2d slices from a 3D NIfti volume
+# nii_rotate = np.rot90(np.array(img_data))
+nii_slice = img_data[:, :, 20]
+mask_slice = mask_data[:, :, 20]
 
 
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize= (20, 10))
+ax1.imshow(nii_slice, cmap= 'bone')
+ax1.set_title('Image')
 
+ax2.imshow(mask_slice, cmap= 'bone')
+ax2.set_title('Mask')
+
+ax3.imshow(nii_slice, cmap='gray')
+ax3.imshow(mask_slice, cmap='bwr', alpha=0.5*(mask_slice>0))
+ax3.set_title('Mask Overlay')
+
+plt.savefig("data_overview.png")
 
 ###########################################################################
 
