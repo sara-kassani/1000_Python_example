@@ -38,6 +38,9 @@ allfiles
 ###########################################################################
 # pandas-related
 pd.set_option('max_colwidth', -1)
+pd.set_option('display.width', 1000)
+pd.set_option('display.max_rows', 1000)
+pd.set_option('display.max_columns', 1000)
 ###########################################################################
 # get filename from glob.glob file paths
 # dcmfiles = [os.path.basename(x) for x in files_path_list]
