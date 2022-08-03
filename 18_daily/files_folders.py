@@ -67,10 +67,10 @@ for i, image_name in enumerate(image_list):
 print(np.shape(nii_data_list))
 # (111, 224, 224, 64)
 
+***********************************************************************************
 
 
-
-
+new_dir_path= os.path.split(os.path.split(newpath)[0])[0]
 
 
 
