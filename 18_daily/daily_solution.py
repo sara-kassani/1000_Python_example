@@ -542,9 +542,34 @@ new_dir_path= os.path.split(os.path.split(newpath)[0])[0]
 next(iter(test_generator))
 
 ###########################################################################
+import os
+import glob
+import numpy as np
+import nibabel as nib
+import cv2
+from imageio import imread
 
+def nii2png(in_dir, out_dir, is_mask=False):
+    file_paths= glob.glob(in_dir + "/*.nii")
+    
+    for file_path in file_paths:
+        nii_img = nib.load(file_path).get_fdata()
+        num = 0
+        for i in range(nii_img.shape[2]):
+            nii_arr = nii_img[:, :, i].astype(np.uint8)
+            
+            
+            if is_mask:
+                nii_arr = np.where(nii_arr == 1, 255, nii_arr)
 
+            save_path= os.path.join(out_dir, os.path.basename(file_path)[:-4] + '_slice' + str(num) + '.png')
+            cv2.imwrite(save_path, nii_arr)
+            num += 1
+            
+in_dir= "data_nii/train/images/"
+out_dir= "data_png/train/images/"
 
+nii2png(in_dir, out_dir, is_mask=False)
 ###########################################################################
 
 
