@@ -596,7 +596,29 @@ def copy_files(file_names, in_dir, out_dir):
 
 
 
-
+def white_masks(in_dir):
+    white_masks_names=[]
+    file_names= os.listdir(in_dir)
+    for file_name in file_names:
+        file_path= os.path.join(in_dir, file_name)
+        img_data= imageio.imread(file_path)
+        if img_data.max() == 255:
+            white_masks_names.append(file_name)
+    return white_masks_names
+                 
+def copy_white_masks(in_dir_mask, out_dir_mask, in_dir_img, out_dir_img):
+    white_masks_names= white_masks(in_dir_mask)
+    print(np.shape(white_masks_names))
+    for file_name in white_masks_names:
+        in_path_mask= os.path.join(in_dir_mask, file_name)
+        out_path_mask= os.path.join(out_dir_mask, file_name)
+        
+        in_path_img= os.path.join(in_dir_img, file_name)
+        out_path_img= os.path.join(out_dir_img, file_name)
+        
+        shutil.copy(in_path_mask, out_path_mask)
+        shutil.copy(in_path_img, out_path_img)
+    return white_masks_names
         
 ###########################################################################
 
