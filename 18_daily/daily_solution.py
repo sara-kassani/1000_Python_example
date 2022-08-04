@@ -577,7 +577,8 @@ def sanity_check2d(in_dir):
     for file_name in file_names:
         file_path= os.path.join(in_dir, file_name)
         img= imread(file_path)
-        print("{}, min val: {}, max val: {}, shape: {}, ndim: {}".format(file_name, np.min(img), np.max(img), img.shape, img.ndim))
+        print("{}, min val: {}, max val: {}, shape: {}, dtype: {},  ndim: {}".format(file_name, np.min(img), np.max(img), img.shape, img.dtype, img.ndim))
+        print(np.unique(img))
 #         print(np.unique(img))
 
 in_dir= "data_png/validation/masks/"
