@@ -434,6 +434,7 @@ def load_model(model_path):
 # Verify generator
 img, msk = train_img_datagen.__next__()
 
+next(iter(test_generator))
 ###########################################################################
 
     if activate == 'relu':
