@@ -571,9 +571,14 @@ out_dir= "data_png/train/images/"
 
 nii2png(in_dir, out_dir, is_mask=False)
 ###########################################################################
+def sanity_check2d(in_dir):
+    file_names= os.listdir(in_dir)
+    for file_name in file_names:
+        file_path= os.path.join(in_dir, file_name)
+        print("{}, min val: {}, max val: {}, shape: {}, ndim: {}".format(file_name, np.min(img), np.max(img), img.shape, img.ndim))
 
-
-
+in_dir= "data_png/validation/masks/"
+sanity_check2d(in_dir)
 ###########################################################################
 
 
