@@ -622,7 +622,13 @@ def copy_white_masks(in_dir_mask, out_dir_mask, in_dir_img, out_dir_img):
         
 ###########################################################################
 
-
+    def create_df(self, X):
+        predictions = self.model.predict(X)
+        df = pd.DataFrame(predictions, columns=["relative_x", "relative_y", "size"])
+        df.to_csv('features.csv', sep=',')
+        print("Created file...")
+        
+        return
 
 ###########################################################################
 
