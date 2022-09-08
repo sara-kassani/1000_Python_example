@@ -368,6 +368,11 @@ class DataGenerator(tf.keras.utils.Sequence):
         label = tf.keras.utils.to_categorical(label, num_classes=self.n_classes)
         
         return image, label
+    
+###########################################################################
+from tensorflow import keras
+loaded_model = keras.models.load_model('model_0.0001_architecture.h5',  custom_objects={'dice_loss':dice_loss, 'dice_coef': dice_coef, 
+                                                                    'precision': precision, 'recall': recall})
 ###########################################################################
 from tensorflow.keras.models import load_model
 
