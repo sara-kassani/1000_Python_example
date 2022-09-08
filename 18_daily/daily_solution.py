@@ -369,6 +369,8 @@ class DataGenerator(tf.keras.utils.Sequence):
         
         return image, label
 ###########################################################################
+from tensorflow.keras.models import load_model
+
 model = load_model('model.h5')
 model = load_weights('model_weights_2.h5')
 ###########################################################################
