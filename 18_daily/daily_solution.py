@@ -368,8 +368,9 @@ class DataGenerator(tf.keras.utils.Sequence):
         label = tf.keras.utils.to_categorical(label, num_classes=self.n_classes)
         
         return image, label
-
-
+###########################################################################
+model = load_model('model.h5')
+model = load_weights('model_weights_2.h5')
 ###########################################################################
 def load_model(model_path):
     """ Load the model from path
