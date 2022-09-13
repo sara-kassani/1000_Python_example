@@ -681,9 +681,46 @@ ef make_dir_img_mask(base_dir='data'):
         os.mkdir(mask_test_dir)
         
 ###########################################################################
+# dcm2png
+import os
+import glob
+import pandas as pd
+import numpy as np
+import pydicom
+import tqdm
+import cv2
+import SimpleITK as sitk
+from PIL import Image
 
+def get_names(path):
+    names = []
+    for root, dirnames, filenames in os.walk(path):
+        for filename in filenames:
+            _, ext = os.path.splitext(filename)
+            if ext in ['.dcm']:
+                path= os.path.join(root, filename)
+                names.append(path)
+    return names
 
+def convert_dcm_png(path):
+    filename= os.path.basename(path)[:-4]
+    print(filename)
+    root=os.path.dirname(path)
+    print(root)
+    
+    im = pydicom.dcmread(path)
+    im = im.pixel_array.astype(float)
+    rescaled_image = (np.maximum(im,0)/im.max())*255 # float pixels
+    final_image = np.uint8(rescaled_image) # integers pixels
+    final_image = Image.fromarray(final_image)
+    
+    final_image.save(os.path.join(root, filename+'.png'))
 
+    return final_image
+
+names = get_names('dicom')
+for name in names:
+    image = convert_dcm_png(name)
 ###########################################################################
 
 
