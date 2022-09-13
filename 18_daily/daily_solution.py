@@ -640,7 +640,45 @@ def copy_white_masks(in_dir_mask, out_dir_mask, in_dir_img, out_dir_img):
 
 ###########################################################################
 
+ef make_dir_img_mask(base_dir='data'):
+    '''create train, validation, test,  images and masks'''
+    train_dir = os.path.join(base_dir, 'train/')
+    val_dir = os.path.join(base_dir, 'validation/')
+    test_dir = os.path.join(base_dir, 'test/')
 
+    img_train_dir = os.path.join(train_dir, 'images/')
+    mask_train_dir = os.path.join(train_dir, 'masks/')
+    img_val_dir = os.path.join(val_dir, 'images/')
+    mask_val_dir = os.path.join(val_dir, 'masks/')
+    img_test_dir = os.path.join(test_dir, 'images/')
+    mask_test_dir = os.path.join(test_dir, 'masks/')
+
+    if not os.path.exists(train_dir):
+        os.mkdir(train_dir)
+
+    if not os.path.exists(val_dir):
+        os.mkdir(val_dir)
+
+    if not os.path.exists(test_dir):
+        os.mkdir(test_dir)
+        
+    if not os.path.exists(img_train_dir):
+        os.mkdir(img_train_dir)
+
+    if not os.path.exists(mask_train_dir):
+        os.mkdir(mask_train_dir)
+
+    if not os.path.exists(img_val_dir):
+        os.mkdir(img_val_dir)
+
+    if not os.path.exists(mask_val_dir):
+        os.mkdir(mask_val_dir)
+
+    if not os.path.exists(img_test_dir):
+        os.mkdir(img_test_dir)
+
+    if not os.path.exists(mask_test_dir):
+        os.mkdir(mask_test_dir)
         
 ###########################################################################
 
