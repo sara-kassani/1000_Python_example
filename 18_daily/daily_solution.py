@@ -723,7 +723,15 @@ for name in names:
     image = convert_dcm_png(name)
 ###########################################################################
 
-
+def get_names(path):
+    names = []
+    for root, dirnames, filenames in os.walk(path):
+        for filename in filenames:
+            _, ext = os.path.splitext(filename)
+            if ext in ['.dcm']:
+                path= os.path.join(root, filename)
+                names.append(path)
+    return names
         
 ###########################################################################
 
