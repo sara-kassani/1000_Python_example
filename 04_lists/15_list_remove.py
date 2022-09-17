@@ -2,6 +2,9 @@
 remove items from list
 - remove first element from a list given by its value
 - Throw an exception if there is no such element in the list
+- Use del to remove an element by index, 
+- Use pop() to remove it by index if you need the returned value, 
+- Use remove() to delete an element by value. The last requires searching the list, and raises ValueError if no such value occurs in the list.
 """
 
 def main():
