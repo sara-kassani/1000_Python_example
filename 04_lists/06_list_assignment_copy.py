@@ -12,8 +12,8 @@ def main():
     x[0] = 'qqrq'
     print(x)            # ['qqrq', 'bob', 'cat', 'drone']
     print(y)            # ['qqrq', 'bob', 'cat', 'drone']
-    print(id(x))
-    print(id(y))
+    print(id(x))        # 2217735008960
+    print(id(y))        # 2217735008960
 
 if __name__ == '__main__':
     main()
