@@ -734,7 +734,8 @@ def get_names(path):
     return names
         
 ###########################################################################
-
+data_dicts = [{"image": image_name, "mask": mask_name}
+              for image_name, mask_name in zip(train_images, train_masks)]
 
 
 ###########################################################################
