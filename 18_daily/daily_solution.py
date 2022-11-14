@@ -746,7 +746,7 @@ def seed_it_all(seed=7):
     random.seed(seed)
     np.random.seed(seed)
     tf.random.set_seed(seed)
-        
+seed_it_all()        
 ###########################################################################
 
 
