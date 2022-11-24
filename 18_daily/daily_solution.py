@@ -749,8 +749,33 @@ def seed_it_all(seed=7):
 seed_it_all()        
 ###########################################################################
 
+def plot_img_mask(img1, img2):
+    fig = plt.figure(figsize=(8, 6),dpi= 100)
+    plt.subplot(231)
+    plt.title("original maks", fontsize=8)
+    plt.imshow(img1[:,:, img1.shape[2]//2],cmap='gray')
 
+    plt.subplot(232)
+    plt.title("resized mask", fontsize=8)
+    plt.imshow(img2[:,:,img2.shape[2]//2],cmap='gray')
 
+    plt.subplot(233)
+    plt.title("Mask Overlay", fontsize=8)
+    plt.imshow(img1[:, :, img1.shape[2]//2], cmap='gray')
+    plt.imshow(img2[:, :, img2.shape[2]//2], alpha=0.5, cmap= 'gray')
+    plt.show()
+    
+    
+for mask_filename in train_masks:
+    mask= nib.load(mask_filename).get_fdata()
+    print(mask.shape)
+    resized_mask= resize_volume(mask, desired_width, desired_height, desired_depth, order)
+    print(mask_filename)
+    print(resized_mask.shape)
+    print(np.unique(resized_mask)) # sure the values are [0, 1] for binary segmentation
+    plot_img_mask(mask, resized_mask)
+    print("======" * 10)
+    
 ###########################################################################
 
 
