@@ -816,7 +816,31 @@ def get_model_memory_usage(batch_size, model):
 
         
 ###########################################################################
+from skimage.morphology import remove_small_objects
+from skimage.measure import label, regionprops
+def remove_conn_components(pred_mask, num_cc=1):
 
+    labels = label(pred_mask)
+
+    if num_cc == 1:
+
+        maxArea = 0
+        for region in regionprops(labels):
+            if region.area > maxArea:
+                maxArea = region.area
+                print(maxArea)
+
+        mask = remove_small_objects(labels, maxArea - 1)
+
+    else:
+        mask = remove_small_objects(labels, 3000, connectivity=2)
+
+    return mask.astype(np.float64)
+
+
+    kernel = np.ones((5,5),np.uint8)
+    closing = cv2.morphologyEx(pred, cv2.MORPH_CLOSE, kernel)
+    cleaned= remove_conn_components(closing)
 
 
 ###########################################################################
