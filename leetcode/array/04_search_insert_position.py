@@ -16,3 +16,26 @@ Input: nums = [1,3,5,6], target = 7
 Output: 4
 
 """
+
+nums = [1,3,5,6]
+target = 2
+
+if target in nums:
+    print(nums.index(target))
+else:
+    nums.append(target)
+    print(nums)
+    nums.sort()
+    print(nums)
+    print(nums.index(target))
+    
+# [1, 3, 5, 6, 2]
+# [1, 2, 3, 5, 6]
+# 1
+## =======================================
+nums = [1,3,5,6]
+target = 6
+
+for i, num in enumerate(nums):
+    if num >= target:
+        print(i)  # 3
