@@ -13,3 +13,35 @@ Explanation: Your function should return k = 5, with the first five elements of 
 It does not matter what you leave beyond the returned k (hence they are underscores).
 
 """
+nums = [0,0,1,1,1,2,2,3,3,4]
+duplicates=0
+
+for i in range(1, len(nums)):
+    if nums[i] == nums[i-1]:
+        duplicates += 1
+    else:
+        nums[i - duplicates] = nums[i]
+    
+    print("i: {}, nums[i]: {}, nums[i-1]: {}, duplicates: {}, nums[i-duplicates]: {}".format(i, nums[i], nums[i-1], duplicates, nums[i-duplicates]))
+    print("duplicates: ", duplicates)
+    
+    print("len(nums) - duplicates: ", len(nums) - duplicates)
+    
+i: 1, nums[i]: 0, nums[i-1]: 0, duplicates: 1, nums[i-duplicates]: 0
+duplicates:  1 ===== len(nums) - duplicates:  9
+i: 2, nums[i]: 1, nums[i-1]: 1, duplicates: 1, nums[i-duplicates]: 1
+duplicates:  1 ===== len(nums) - duplicates:  9
+i: 3, nums[i]: 1, nums[i-1]: 1, duplicates: 2, nums[i-duplicates]: 1
+duplicates:  2 ===== len(nums) - duplicates:  8
+i: 4, nums[i]: 1, nums[i-1]: 1, duplicates: 3, nums[i-duplicates]: 1
+duplicates:  3 ===== len(nums) - duplicates:  7
+i: 5, nums[i]: 2, nums[i-1]: 1, duplicates: 3, nums[i-duplicates]: 2
+duplicates:  3 ===== len(nums) - duplicates:  7
+i: 6, nums[i]: 2, nums[i-1]: 2, duplicates: 4, nums[i-duplicates]: 2
+duplicates:  4 ===== len(nums) - duplicates:  6
+i: 7, nums[i]: 3, nums[i-1]: 2, duplicates: 4, nums[i-duplicates]: 3
+duplicates:  4 ===== len(nums) - duplicates:  6
+i: 8, nums[i]: 3, nums[i-1]: 3, duplicates: 5, nums[i-duplicates]: 3
+duplicates:  5 ===== len(nums) - duplicates:  5
+i: 9, nums[i]: 4, nums[i-1]: 3, duplicates: 5, nums[i-duplicates]: 4
+duplicates:  5 ===== len(nums) - duplicates:  5
