@@ -44,7 +44,18 @@ if __name__=='__main__':
 # i: 3, j: 4
 ## ========================================================
 
-
+# i: 0, j: 1,nums[i]: 1, nums[j]: 2
+# i: 0, j: 2,nums[i]: 1, nums[j]: 3
+# i: 0, j: 3,nums[i]: 1, nums[j]: 4
+# found: 0 3
+# i: 0, j: 4,nums[i]: 1, nums[j]: 5
+# i: 1, j: 2,nums[i]: 2, nums[j]: 3
+# found: 1 2
+# i: 1, j: 3,nums[i]: 2, nums[j]: 4
+# i: 1, j: 4,nums[i]: 2, nums[j]: 5
+# i: 2, j: 3,nums[i]: 3, nums[j]: 4
+# i: 2, j: 4,nums[i]: 3, nums[j]: 5
+# i: 3, j: 4,nums[i]: 4, nums[j]: 5
 
 
 
