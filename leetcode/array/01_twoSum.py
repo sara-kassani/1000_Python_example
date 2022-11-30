@@ -43,7 +43,17 @@ if __name__=='__main__':
 # i: 2, j: 4
 # i: 3, j: 4
 ## ========================================================
+# nums= [1, 2, 3, 4, 5]
+# target= 5
 
+
+# for i in range(len(nums)):
+#     for j in range(i+1, len(nums)):
+#         print("i: {}, j: {},nums[i]: {}, nums[j]: {}".format(i, j, nums[i], nums[j]))
+#         if nums[i] + nums[j] == target:
+#             print("found:",  i, j)
+	
+	
 # i: 0, j: 1,nums[i]: 1, nums[j]: 2
 # i: 0, j: 2,nums[i]: 1, nums[j]: 3
 # i: 0, j: 3,nums[i]: 1, nums[j]: 4
@@ -56,7 +66,3 @@ if __name__=='__main__':
 # i: 2, j: 3,nums[i]: 3, nums[j]: 4
 # i: 2, j: 4,nums[i]: 3, nums[j]: 5
 # i: 3, j: 4,nums[i]: 4, nums[j]: 5
-
-
-
-
