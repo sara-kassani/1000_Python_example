@@ -844,7 +844,61 @@ def remove_conn_components(pred_mask, num_cc=1):
 
 
 ###########################################################################
+import numpy as np
+import os
+import nibabel as nib
+import imageio
+import skimage.exposure
+from tqdm.notebook import tqdm
 
+
+def ct_window(ct_volume, level, window):
+    lower= level - (window/2)
+    upper= level + (window/2)
+    clipped = np.clip(ct_volume, lower, upper).astype('float32')
+    return skimage.exposure.rescale_intensity(clipped, in_range=(lower, upper), out_range=(0., 255.))
+
+def encode_mask(input_mask):
+    mask = np.asarray(input_mask)
+    mask = mask.astype(int)
+    mask[mask == 0] = 0   # background
+    mask[mask == 127] = 1
+    mask[mask == 255] = 2
+    mask = mask.astype(np.uint8)
+    return mask
+
+def nii_to_image(indir, outdir, is_mask= None):
+    file_names = os.listdir(indir)
+    for idx, file_name in enumerate(tqdm(file_names[:144])):
+        img_path = os.path.join(indir, file_name)
+        img = nib.load(img_path)
+        img_data = img.get_fdata()
+        
+        if is_mask:
+            fname= os.path.basename(img_path)
+            fname = fname.replace('.nii.gz', '')
+            img_f_path = os.path.join(outdir, fname)
+            (x, y, z) = img.shape
+            for i in range(z):
+                nii_slice = (img_data[:, :, i])
+                nii_slice[np.where(nii_slice == 0)] = 0
+                nii_slice[np.where(nii_slice == 255)] = 1
+                nii_slice[np.where(nii_slice == 127)] = 2
+                imageio.imwrite(img_f_path+'-{}.png'.format(i), nii_slice)
+
+        if not is_mask:
+            img_data= ct_window(img_data, level=level, window=window)
+            fname= os.path.basename(img_path)
+            fname = fname.replace('.nii.gz', '')
+            print("processing: {} {} ".format(idx, fname))
+            img_f_path = os.path.join(outdir, fname)
+
+            (x, y, z) = img.shape
+            for i in range(z):
+                nii_slice = (img_data[:, :, i]).astype(np.uint8)
+                nii_slice = encode_mask(nii_slice)
+
+                imageio.imwrite(img_f_path+'-{}.png'.format(i), nii_slice)
 
 
         
