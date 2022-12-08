@@ -936,6 +936,16 @@ for filename in useless_masks:
     print("removing {}".format(filename))
     os.remove(filename)  
 
+## don't forget to remove corresponding images    
+val_img_dir= "Liver_png_encoded/val/images/"
+for filepath in useless_masks:
+    fname= os.path.basename(filepath)
+    img_path= os.path.join(val_img_dir, fname)
+    print("removing {}".format(img_path))
+    os.remove(img_path)
+    
+print(len(glob.glob("Liver_png_encoded/val/images/*.png")))
+print(len(glob.glob("Liver_png_encoded/val/masks/*.png")))    
 ###########################################################################
 
 
