@@ -904,7 +904,37 @@ def nii_to_image(indir, outdir, is_mask= None):
         
 ###########################################################################
 
-
+useless_masks= []
+for val_mask in val_masks:
+    mask_data= cv2.imread(val_mask, -1)
+    mask_name= os.path.basename(val_mask)
+    val, counts = np.unique(mask_data, return_counts=True)
+#     for pix_val, pix_counts in zip(val, counts):
+#         print(pix_val, pix_counts, end=' -- ', flush=True)
+    
+    if len(counts) == 3:
+        condition= ((counts[1] + counts[2])/counts.sum())*100
+        if condition < 0.1: 
+            useless_masks.append(val_mask)
+            plt.figure(figsize=(8, 6))
+            plt.subplot(231) # control the plot size
+            plt.imshow(mask_data, cmap= 'gray')
+            plt.title("{} -- {:.4f}%".format(mask_name, condition), fontsize=9)
+            plt.show()
+        
+    if len(counts) == 2: 
+        condition= (counts[1]/counts.sum())*100
+        if condition < 0.1: 
+            useless_masks.append(val_mask)
+            plt.figure(figsize=(8, 6))
+            plt.subplot(231) # control the plot size
+            plt.imshow(mask_data, cmap= 'gray')
+            plt.title("{} -- {:.4f}%".format(mask_name, condition), fontsize=9)
+            plt.show()
+            
+for filename in useless_masks:
+    print("removing {}".format(filename))
+    os.remove(filename)  
 
 ###########################################################################
 
