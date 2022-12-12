@@ -77,6 +77,14 @@ def plot_sample(input_img, input_mask, color_map = 'nipy_spectral'):
     
     plt.show()
 
+###########################################################################    
+import pickle
+history_filepath = os.path.join('model_history.pickle')
+with open(history_filepath, 'wb') as hist_file:
+    pickle.dump(history.history, hist_file)
+    
+import pandas as pd
+hist_obj = pd.read_pickle(r'model_history.pickle')        
 ###########################################################################
 # extract filename from path list
 img_filenames = [os.path.basename(x) for x in img_files]
