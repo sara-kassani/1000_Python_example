@@ -964,7 +964,22 @@ for _, row in df.iterrows():
 
         
 ###########################################################################
+# mask_onehot_encoding
 
+ # Use RGB dictionary in 'RGBtoTarget.txt' to convert RGB to target
+new_mask_arr[np.where(np.all(mask_arr == [216, 124, 18], axis=-1))] = 0
+new_mask_arr[np.where(np.all(mask_arr == [255, 255, 255], axis=-1))] = 1
+new_mask_arr[np.where(np.all(mask_arr == [216, 67, 82], axis=-1))] = 2
+
+*******************************
+def encode_mask(input_mask):
+    mask = np.asarray(input_mask)
+    mask = mask.astype(int)
+    mask[mask == 0] = 0   # background
+    mask[mask == 127] = 1
+    mask[mask == 255] = 2
+    mask = mask.astype(np.uint8)
+    return mask
 
 
 ###########################################################################
