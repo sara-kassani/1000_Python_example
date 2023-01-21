@@ -998,7 +998,25 @@ for idx, width in enumerate(width_lst):
     plt.yticks([]) 
 
 ###########################################################################
+def ct_window(ct_volume, level, width):
+    lower= level - (width/2)
+    upper= level + (width/2)
+    clipped = np.clip(ct_volume, lower, upper).astype('float32')
+    return skimage.exposure.rescale_intensity(clipped, in_range=(lower, upper), out_range=(0., 1.))
 
+def brute_force_windowing(slice_idx, plt_nrows, plt_ncols):
+    fig = plt.figure(figsize=(15, 40), tight_layout=True)
+    for idx, width in enumerate(width_lst):
+        img_obj= nib.load(img_paths[0])
+        img_data= img_obj.get_fdata()
+        pos = idx + 1
+        plt.subplot(plt_nrows, plt_ncols, pos)
+        img_data= ct_window(img_data, level=level, width=width)
+        img_slice_data = img_data[:, :, slice_idx]
+        plt.imshow(img_slice_data.T, cmap='gray')
+        plt.title("idx: {}, width: {}, level: {}".format(idx, width, level), fontsize=9)
+        plt.xticks([])
+        plt.yticks([])
 
 ###########################################################################
 
