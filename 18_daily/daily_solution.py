@@ -984,21 +984,18 @@ def encode_mask(input_mask):
 
 ###########################################################################
 
-fig = plt.figure(figsize=(60, 60))
-rows = len(width_lst)
-cols = 2
+fig = plt.figure(figsize=(15, 40), tight_layout=True)
 for idx, width in enumerate(width_lst):
     img_obj= nib.load(img_paths[0])
     img_data= img_obj.get_fdata()
     pos = idx + 1
-    fig.add_subplot(10, 5, pos)
+    plt.subplot(13, 5, pos)
     img_data= ct_window(img_data, level=level, width=width)
     img_slice_data = img_data[:, :, slice_idx]
-    plt.imshow(img_slice_data.T, cmap='gray', origin='lower')
-    plt.title("i: {}, width: {}".format(idx, width), fontsize=14)
+    plt.imshow(img_slice_data.T, cmap='gray')
+    plt.title("idx: {}, width: {}, level: {}".format(idx, width, level), fontsize=9)
     plt.xticks([]) 
     plt.yticks([]) 
-    fig.tight_layout()
 
 ###########################################################################
 
