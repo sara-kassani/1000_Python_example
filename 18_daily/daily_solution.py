@@ -1019,10 +1019,8 @@ def brute_force_windowing(slice_idx, plt_nrows, plt_ncols):
         plt.yticks([])
 
 ###########################################################################
-
-
-
-        
+saveFile = f'{fname.strip(".dcm")}-{"decompressed"}.dcm'
+print(saveFile)
 ###########################################################################
 
 
