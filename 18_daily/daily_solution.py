@@ -1024,7 +1024,121 @@ print(saveFile)
 ###########################################################################
 
 
+#### helper functions ####
+import os
+import glob
+import pydicom
+import SimpleITK as sitk
+import numpy as np
+from skimage import exposure
+from scipy import stats
+import cv2
+from PIL import Image
+import io
 
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+def make_lut(dcm_data, width, center, p_i):
+    """
+    LUT: look-up tables
+    VOI: volume of interest
+    """
+    slope= 1.0
+    intercept= 0.0
+    min_px= int(np.amin(dcm_data))
+    max_px= int(np.amax(dcm_data))
+
+    lut= [0] * (max_px + 1)
+    invert= False
+    if p_i == "MONOCHROME1":
+        invert= True
+    else:
+        center = (max_px - min_px) - center
+    
+    for px_value in range(min_px, max_px):
+        lut_value = px_value * slope + intercept
+        voi_value= (((lut_value - center) / width + 0.5) * 255.0)
+        
+        clamped_value= min(max(voi_value, 0), 255)
+        
+        if invert: 
+            lut[px_value] = round(255 - clamped_value)
+        else:
+            lut[px_value] = round(clamped_value)
+    
+    return lut
+
+def apply_lut(pixels_in, lut):
+    pixels= pixels_in.flatten()
+    pixels_out= [0] * len(pixels)
+    
+    for i in range (0, len(pixels)):
+        pixel= pixels[i]
+        if pixel > 0:
+            pixels_out[i] = int(lut[pixel])
+    return np.reshape(pixels_out, (pixels_in.shape[0], pixels_in.shape[1]))
+
+def mr_windowing(in_dir, out_dir, mode= None, ww= None, wc= None):
+    """
+    # MODES: auot_lut, default_lut, auto_voilut, manual_lut, clahe, normalization
+    """
+    for root, _, fnames in os.walk(in_dir):
+        for fname in fnames:
+            print(f"processing: {fname}")
+            dcm_path= os.path.join(root, fname)
+            
+            dcm_obj= pydicom.dcmread(dcm_path)
+            dcm_pixels = dcm_obj.pixel_array
+            
+            if mode == "manual_lut":
+                lut_ww= ww
+                lut_wc= wc
+                
+                lut= make_lut(dcm_pixels, lut_ww, lut_wc, dcm_obj.PhotometricInterpretation)
+                windowed_dcm= apply_lut(dcm_pixels, lut)
+                
+            if mode == "default_lut":
+                if dcm_obj.WindowWidth != "" and dcm_obj.WindowCenter != "":
+                    lut_ww = dcm_obj.WindowWidth
+                    lut_wc = dcm_obj.WindowCenter
+                    
+                    lut= make_lut(dcm_pixels, lut_ww, lut_wc, dcm_obj.PhotometricInterpretation)
+                    windowed_dcm= apply_lut(dcm_pixels, lut)
+                    
+            if mode == "auto_lut":
+                lut_ww= np.max(dcm_pixels)
+                lut_wc= lut_ww / 2
+                
+                lut= make_lut(dcm_pixels, lut_ww, lut_wc, dcm_obj.PhotometricInterpretation)
+                windowed_dcm= apply_lut(dcm_pixels, lut)
+                
+            if mode == "auto_voilut":
+                lut_ww = np.max(dcm_pixels)
+                lut_wc= ((np.max(dcm_pixels)) - (np.min(dcm_pixels))) / (2 + np.min(dcm_pixels))
+                
+                lut= make_lut(dcm_pixels, lut_ww, lut_wc, dcm_obj.PhotometricInterpretation)
+                windowed_dcm= apply_lut(dcm_pixels, lut)
+                
+            if mode == "clahe":
+                dcm_clahe= exposure.equalize_adapthist(dcm_pixels)
+                windowed_dcm= (dcm_clahe*255).astype(np.uint8)
+                
+            if mode == "normalization":
+                windowed_dcm= (((raw_pixels - np.min(raw_pixels)) / np.max(raw_pixels))* 255).astype(np.uint8)
+                
+            windowed_dcm= np.uint8(windowed_dcm) 
+            print(f"min: {np.min(windowed_dcm)}, max: {np.max(windowed_dcm)}")
+#             plt.imshow(windowed_dcm, cmap= 'gray')
+            print("====="*15)
+            path_dirs = os.path.dirname(dcm_path)
+            out_path = path_dirs.replace(in_dir, out_dir)
+            if not os.path.isdir(out_path):
+                os.makedirs(out_path)
+                
+            final_dcm= sitk.GetImageFromArray(windowed_dcm)
+            save_path= os.path.join(out_path, fname)
+            sitk.WriteImage(final_dcm, save_path)
 ###########################################################################
 
 
