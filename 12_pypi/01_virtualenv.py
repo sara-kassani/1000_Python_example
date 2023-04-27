@@ -6,7 +6,7 @@ Created on Sun Jan  2 10:05:53 2022
 """
 
 # The virtualenv command will create a copy of python in the given directory inside the current directory.
-
+# -p stands for a specified python version or python path
 """
 virtualenv -p python3 venv3
 source venv3/bin/activate
